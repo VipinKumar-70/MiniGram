@@ -1,1 +1,4 @@
 workingflow.txt
+node_modules/
+.env
+uploads/

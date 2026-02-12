@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const path = require("path");
 const userModel = require("./Models/user");
+const { alreadyLoggedIn, protectRoute } = require("./Middleware/auth");
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -23,6 +24,14 @@ app.get("/register", alreadyLoggedIn, (req, res) => {
 
 app.get("/login", alreadyLoggedIn, (req, res) => {
   res.render("login");
+});
+
+app.get("/post", protectRoute, (req, res) => {
+  res.render("post");
+});
+
+app.get("/feed", protectRoute, (req, res) => {
+  res.render("feed");
 });
 
 app.post("/register", (req, res) => {
@@ -51,7 +60,7 @@ app.post("/login", async (req, res) => {
     if (result) {
       let token = jwt.sign({ userId: user._id }, "demoKey");
       res.cookie("token", token);
-      res.redirect("/dashboard");
+      res.redirect("/feed");
     } else {
       res.send("Invalid username and password.");
     }
@@ -59,43 +68,10 @@ app.post("/login", async (req, res) => {
 });
 
 app.get("/dashboard", protectRoute, async (req, res) => {
-  // withour middleware
-  // let token = req.cookies.token;
-
-  // if (!token) return res.redirect("/login");
-
-  // let decoded = jwt.verify(token, "demoKey");
-
-  // let logUser = await userModel.findById(decoded.userId);
-
-  // with middleware
-
   let logUser = await userModel.findById(req.user.userId);
 
   res.render("dashboard", { logUser });
 });
-
-// Middleware - without logged in
-function protectRoute(req, res, next) {
-  const token = req.cookies.token;
-  if (!token) return res.redirect("/login");
-  else {
-    let data = jwt.verify(req.cookies.token, "demoKey");
-    req.user = data;
-    next();
-  }
-}
-
-// Middleware - logged in
-function alreadyLoggedIn(req, res, next) {
-  const token = req.cookies.token;
-
-  if (token) {
-    return res.redirect("/dashboard");
-  }
-
-  next();
-}
 
 app.get("/logout", (req, res) => {
   res.clearCookie("token");
