@@ -13,12 +13,16 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
+app.get("/", alreadyLoggedIn, (req, res) => {
   res.render("index");
 });
 
-app.get("/register", (req, res) => {
+app.get("/register", alreadyLoggedIn, (req, res) => {
   res.render("register");
+});
+
+app.get("/login", alreadyLoggedIn, (req, res) => {
+  res.render("login");
 });
 
 app.post("/register", (req, res) => {
@@ -39,10 +43,6 @@ app.post("/register", (req, res) => {
   });
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
-
 app.post("/login", async (req, res) => {
   let { email, password } = req.body;
   let user = await userModel.findOne({ email });
@@ -58,17 +58,44 @@ app.post("/login", async (req, res) => {
   });
 });
 
-app.get("/dashboard", async (req, res) => {
-  let token = req.cookies.token;
+app.get("/dashboard", protectRoute, async (req, res) => {
+  // withour middleware
+  // let token = req.cookies.token;
 
-  if (!token) return res.redirect("/login");
+  // if (!token) return res.redirect("/login");
 
-  let decoded = jwt.verify(token, "demoKey");
+  // let decoded = jwt.verify(token, "demoKey");
 
-  let logUser = await userModel.findById(decoded.userId);
+  // let logUser = await userModel.findById(decoded.userId);
+
+  // with middleware
+
+  let logUser = await userModel.findById(req.user.userId);
 
   res.render("dashboard", { logUser });
 });
+
+// Middleware - without logged in
+function protectRoute(req, res, next) {
+  const token = req.cookies.token;
+  if (!token) return res.redirect("/login");
+  else {
+    let data = jwt.verify(req.cookies.token, "demoKey");
+    req.user = data;
+    next();
+  }
+}
+
+// Middleware - logged in
+function alreadyLoggedIn(req, res, next) {
+  const token = req.cookies.token;
+
+  if (token) {
+    return res.redirect("/dashboard");
+  }
+
+  next();
+}
 
 app.get("/logout", (req, res) => {
   res.clearCookie("token");
