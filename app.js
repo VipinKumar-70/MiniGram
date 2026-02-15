@@ -8,6 +8,7 @@ const path = require("path");
 const userModel = require("./Models/user");
 const postModel = require("./Models/post");
 const { alreadyLoggedIn, protectRoute } = require("./Middleware/auth");
+const user = require("./Models/user");
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -87,6 +88,17 @@ app.post("/create-post", protectRoute, async (req, res) => {
   });
   console.log(post);
   res.redirect("/dashboard");
+});
+
+app.get("/user/:userid", protectRoute, async (req, res) => {
+  if (req.params.userid === req.user.userId) {
+    return res.redirect("/dashboard");
+  }
+
+  let profileUser = await userModel.findById(req.params.userid);
+  let posts = await postModel.find({ user: req.params.userid });
+
+  res.render("profile", { profileUser, posts });
 });
 
 app.get("/logout", (req, res) => {
