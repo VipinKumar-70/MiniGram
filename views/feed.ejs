@@ -27,8 +27,53 @@
     </nav>
 
     <!-- Public feed -->
-    <section class="p-10">
-      <h1 class="text-zinc-400">Post Coming soon...</h1>
-    </section>
+  <section class="p-10">
+
+  <div class="max-w-2xl mx-auto space-y-10">
+
+    <% allPost.forEach(function(posts){ %>
+
+    <div class="bg-zinc-900 rounded-xl border border-white/10 overflow-hidden">
+
+      <!-- User Header -->
+      <div class="flex items-center gap-3 p-4 border-b border-white/10">
+        <div class="w-10 h-10 rounded-full bg-zinc-700 flex items-center justify-center">
+          <span class="font-bold">
+            <%= posts.user.username.charAt(0).toUpperCase() %>
+          </span>
+        </div>
+
+        <h2 class="font-semibold capitalize">
+          <%= posts.user.username %>
+        </h2>
+      </div>
+
+      <!-- Image -->
+      <% if(posts.image){ %>
+        <img
+          src="/uploads/<%= posts.image %>"
+          class="w-full h-96 object-cover"
+        />
+      <% } else { %>
+        <div class="w-full h-96 bg-zinc-800 flex items-center justify-center text-zinc-400">
+          No Image
+        </div>
+      <% } %>
+
+      <!-- Caption -->
+      <div class="p-4">
+        <p class="text-sm text-zinc-300">
+          <%= posts.caption %>
+        </p>
+      </div>
+
+    </div>
+
+    <% }) %>
+
+  </div>
+
+</section>
+
   </body>
 </html>

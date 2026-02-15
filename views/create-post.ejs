@@ -34,12 +34,7 @@
       <div class="bg-white/5 border border-white/10 rounded-xl p-6">
         <h2 class="text-xl font-semibold mb-4">Create Post</h2>
 
-        <form
-          action="/create-post"
-          method="POST"
-          enctype="multipart/form-data"
-          class="space-y-4"
-        >
+        <form action="/create-post" method="post" class="space-y-4">
           <!-- Caption -->
           <textarea
             name="caption"
@@ -50,7 +45,7 @@
           ></textarea>
 
           <!-- IMAGE UPLOAD BOX -->
-          <label
+          <!-- <label
             for="imageUpload"
             class="w-full h-40 border-2 border-dashed border-white/20 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-indigo-500 transition"
           >
@@ -66,7 +61,7 @@
             name="image"
             class="hidden"
             required
-          />
+          /> -->
 
           <!-- Submit -->
 

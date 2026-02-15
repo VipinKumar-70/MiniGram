@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const path = require("path");
 const userModel = require("./Models/user");
+const postModel = require("./Models/post");
 const { alreadyLoggedIn, protectRoute } = require("./Middleware/auth");
 
 app.set("view engine", "ejs");
@@ -26,12 +27,14 @@ app.get("/login", alreadyLoggedIn, (req, res) => {
   res.render("login");
 });
 
-app.get("/post", protectRoute, (req, res) => {
-  res.render("post");
+app.get("/create-post", protectRoute, (req, res) => {
+  res.render("create-post");
 });
 
-app.get("/feed", protectRoute, (req, res) => {
-  res.render("feed");
+app.get("/feed", protectRoute, async (req, res) => {
+  let allPost = await postModel.find().populate("user").sort({ createdAt: -1 });
+
+  res.render("feed", { allPost });
 });
 
 app.post("/register", (req, res) => {
@@ -69,8 +72,21 @@ app.post("/login", async (req, res) => {
 
 app.get("/dashboard", protectRoute, async (req, res) => {
   let logUser = await userModel.findById(req.user.userId);
+  let userPost = await postModel.find({ user: req.user.userId });
 
-  res.render("dashboard", { logUser });
+  res.render("dashboard", { logUser, userPost });
+});
+
+app.post("/create-post", protectRoute, async (req, res) => {
+  let { caption } = req.body;
+
+  let post = await postModel.create({
+    caption,
+    image: "",
+    user: req.user.userId,
+  });
+  console.log(post);
+  res.redirect("/dashboard");
 });
 
 app.get("/logout", (req, res) => {

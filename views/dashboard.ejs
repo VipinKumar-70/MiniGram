@@ -43,7 +43,7 @@
         <h2 class="text-xl font-semibold">Your Posts</h2>
 
         <a
-          href="/post"
+          href="/create-post"
           class="bg-indigo-500 px-4 py-2 rounded-lg text-sm hover:bg-indigo-600 transition"
         >
           Create Post
@@ -52,6 +52,8 @@
 
       <!-- POSTS PLACEHOLDER -->
       <div class="grid md:grid-cols-2 gap-6">
+
+       <% userPost.forEach(function(post){%>
         <!-- POST CARD -->
         <div class="bg-white/5 border border-white/10 rounded-xl p-4">
           <div
@@ -61,20 +63,12 @@
           </div>
 
           <p class="text-zinc-400 text-sm">
-            Your posts will appear here after you implement post model.
+            <%=post.caption%>
           </p>
         </div>
+        <%})%>
 
-        <!-- POST CARD -->
-        <div class="bg-white/5 border border-white/10 rounded-xl p-4">
-          <div
-            class="h-40 bg-zinc-800 rounded-lg mb-3 flex items-center justify-center text-zinc-500"
-          >
-            Image Preview -Post 2
-          </div>
-
-          <p class="text-zinc-400 text-sm">Create your first post.</p>
-        </div>
+        
       </div>
     </section>
   </body>

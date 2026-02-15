@@ -84,9 +84,11 @@ This project focuses on learning **real-world backend development concepts** suc
 MiniGram/
 │
 ├── Middleware/              # Custom middleware (auth, JWT verify, etc.)
+│   └── auth.js
 │
 ├── Models/                  # Mongoose schemas
 │   └── user.js
+│   └── post.js
 │
 ├── public/                  # Static assets
 │   ├── images/
