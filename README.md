@@ -1,7 +1,7 @@
-# MiniGram — Mini Social Media App 🧩
+# MiniGram – Mini Social Media Application
 
-MiniGram is a beginner-friendly full-stack social media application built using Node.js, Express, MongoDB, and EJS.  
-Users can register, log in securely, create posts, view a public feed, manage their personal dashboard, and edit or delete their own content.
+MiniGram is a beginner-friendly, full-stack social media application built with **Node.js**, **Express**, **MongoDB**, and **EJS**.  
+It demonstrates core backend development concepts including authentication, middleware, MVC architecture, relational data modeling, CRUD operations, and protected routing.
 
 This project focuses on learning **real-world backend development concepts** such as authentication, middleware, MVC architecture, and CRUD operations.
 
@@ -20,61 +20,58 @@ This project focuses on learning **real-world backend development concepts** suc
 - [License](#-license)
 - [Contact](#-contact)
 
+## 🛠 Tech Stack
+
+| Layer          | Technologies                                |
+| -------------- | ------------------------------------------- |
+| Backend        | Node.js, Express.js                         |
+| Database       | MongoDB + Mongoose                          |
+| Frontend       | EJS (Embedded JavaScript Templates)         |
+| Styling        | Tailwind CSS                                |
+| Authentication | bcrypt, JSON Web Token (JWT), cookie-parser |
+
 ---
 
-## 🚀 Tech Stack
-
-### Backend
-
-- Node.js
-- Express.js
-- MongoDB
-- Mongoose
-
-### Frontend
-
-- EJS (Embedded JavaScript Templates)
-- Tailwind CSS (optional styling)
+## 🌟 Features
 
 ### Authentication & Security
 
-- bcrypt (password hashing)
-- JSON Web Token (JWT)
-- cookie-parser
+- User registration and login
+- Password hashing with **bcrypt**
+- JWT-based authentication
+- Secure cookie storage (`httpOnly`, `secure` in production)
+- Protected routes via custom middleware
+- Automatic redirect for already authenticated users
 
----
+### User Dashboard (Private)
 
-## 🎯 Features
-
-### 🔐 Authentication
-
-- User Registration
-- User Login
-- Password encryption using bcrypt
-- JWT token generation
-- Cookie-based authentication
-- Protected routes
-
-### 👤 Dashboard (Profile)
-
-- View personal profile
-- View all own posts
-- Create new posts
-- Edit existing posts
-- Delete posts
+- View and manage personal profile
+- Create, view, edit*, and delete own posts (*edit coming soon)
 - Logout functionality
+- Only accessible to authenticated users
 
-### 📰 Feed Page
+### Public Feed
 
-- Public feed displaying posts from all users
+- View latest posts from all users (sorted by creation date – newest first)
+- Displays username and post content
+- Clickable usernames lead to profiles
 
-### 🛠 Backend Concepts
+### Public User Profiles
+
+- View any user's posts
+- Smart redirection:
+  - Own username → redirects to personal dashboard
+  - Other users → shows public profile
+
+### Core Backend Concepts Demonstrated
 
 - MVC folder structure
-- Middleware
-- JWT authorization
-- CRUD operations
+- Custom JWT authentication middleware
+- Mongoose population for relational data
+- Cookie-based session management
+- Route protection & authorization
 - Server-side rendering with EJS
+- Basic input sanitization & security practices
 
 ---
 
@@ -101,9 +98,10 @@ MiniGram/
 │   ├── index.ejs               # Landing page
 │   ├── register.ejs            # Registration page
 │   ├── login.ejs               # Login page
-│   ├── dashboard.ejs           # User dashboard / profile
+│   ├── dashboard.ejs           # User dashboard / User profile
 │   └── feed.ejs                # Public feed
 │   └── create-post.ejs         # create new post
+│   └── profile.ejs             # Pulic profile
 │
 ├── app.js                   # Main Express server
 ├── package.json             # Dependencies & scripts
@@ -138,7 +136,7 @@ git clone https://github.com/VipinKumar-70/MiniGram---social-app.git
 2. Navigate to project directory:
 
 ```bash
-cd MiniGram---social-app
+cd MiniGram
 ```
 
 3. Install dependencies:
@@ -161,37 +159,39 @@ http://localhost:3000
 
 ## 🔐 Authentication Flow
 
-- User registers
-- Password is hashed using bcrypt
-- User logs in
-- JWT token is generated
-- Token stored in cookies
-- Middleware verifies JWT
-- Protected routes become accessible
+- User registers → password is hashed with bcrypt
+- User logs in → valid credentials → JWT is generated
+- JWT is stored in an httpOnly cookie
+- Middleware verifies JWT on protected routes
+- User ID is attached to **req.user** for easy access
+- Posts are associated with the authenticated user
 
 ## 📦 Dependencies
 
 ```bash
-bcrypt
-cookie-parser
-ejs
-express
-jsonwebtoken
-mongoose
 
+"dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "ejs": "^4.0.1",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.2.0"
+  }
 ```
 
 ## 🧠 Learning Outcomes
 
-- User authentication system
-- Password encryption
-- JWT token handling
-- Cookie management
-- Express middleware
-- CRUD with MongoDB
-- MVC architecture
-- EJS rendering
-- Real backend workflow
+- Building a complete authentication system from scratch
+- Secure password storage & verification
+- JWT creation, validation and cookie management
+- Writing custom Express middleware
+- Implementing protected/private routes
+- Modeling one-to-many relationships in MongoDB
+- Using Mongoose populate() for relational queries
+- MVC architecture in Express
+- Server-side rendering with EJS + Tailwind CSS
+- Real-world social app logic (feed, profiles, ownership checks)
 
 ## Contributing
 
