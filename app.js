@@ -1,3 +1,12 @@
+require("dotenv").config();
+
+const mongoose = require("mongoose");
+
+mongoose
+  .connect(process.env.MONGODB_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch((err) => console.log(err));
+
 const express = require("express");
 const app = express();
 
@@ -5,10 +14,9 @@ const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const path = require("path");
-const userModel = require("./Models/user");
+const userModel = require("./Models/user").default;
 const postModel = require("./Models/post");
 const { alreadyLoggedIn, protectRoute } = require("./Middleware/auth");
-const user = require("./Models/user");
 
 app.set("view engine", "ejs");
 app.use(express.json());
@@ -62,7 +70,7 @@ app.post("/login", async (req, res) => {
   if (!user) return res.send("User not found.");
   bcrypt.compare(password, user.password, function (err, result) {
     if (result) {
-      let token = jwt.sign({ userId: user._id }, "demoKey");
+      let token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET);
       res.cookie("token", token);
       res.redirect("/feed");
     } else {
@@ -106,6 +114,8 @@ app.get("/logout", (req, res) => {
   res.redirect("/");
 });
 
-app.listen(3000, () => {
-  console.log("Server is running...");
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log("Server running on port", PORT);
 });
