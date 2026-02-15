@@ -97,12 +97,13 @@ MiniGram/
 │   └── stylesheets/
 │       └── style.css
 │
-├── views/                   # EJS templates
-│   ├── index.ejs            # Landing page
-│   ├── register.ejs         # Registration page
-│   ├── login.ejs            # Login page
-│   ├── dashboard.ejs        # User dashboard / profile
-│   └── feed.ejs             # Public feed
+├── views/                      # EJS templates
+│   ├── index.ejs               # Landing page
+│   ├── register.ejs            # Registration page
+│   ├── login.ejs               # Login page
+│   ├── dashboard.ejs           # User dashboard / profile
+│   └── feed.ejs                # Public feed
+│   └── create-post.ejs         # create new post
 │
 ├── app.js                   # Main Express server
 ├── package.json             # Dependencies & scripts
