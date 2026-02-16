@@ -1,20 +1,12 @@
-require("dotenv").config();
-
-const mongoose = require("mongoose");
-
-mongoose
-  .connect(process.env.MONGODB_URI)
-  .then(() => console.log("MongoDB Connected"))
-  .catch((err) => console.log(err));
-
 const express = require("express");
 const app = express();
 
+require("dotenv").config();
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
 const path = require("path");
-const userModel = require("./Models/user").default;
+const userModel = require("./Models/user");
 const postModel = require("./Models/post");
 const { alreadyLoggedIn, protectRoute } = require("./Middleware/auth");
 

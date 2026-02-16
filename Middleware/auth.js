@@ -15,11 +15,10 @@ function alreadyLoggedIn(req, res, next) {
 function protectRoute(req, res, next) {
   const token = req.cookies.token;
   if (!token) return res.redirect("/login");
-  else {
-    let data = jwt.verify(token, "demoKey");
-    req.user = data;
-    next();
-  }
+
+  let data = jwt.verify(token, process.env.JWT_SECRET);
+  req.user = data;
+  next();
 }
 
 module.exports = {
