@@ -183,7 +183,6 @@ http://localhost:3000
 
 ## 🧠 Learning Outcomes
 
-- Building a complete authentication system from scratch
 - Secure password storage & verification
 - JWT creation, validation and cookie management
 - Writing custom Express middleware
