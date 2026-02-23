@@ -4,9 +4,11 @@ This branch contains the MERN architecture version of MiniGram.
 
 ## Project Structure
 
+```bash
 MiniGram/
  ├── backend/   → Express + MongoDB API
  ├── frontend/  → React (Vite + Tailwind)
+```
 
 ## Branches
 
